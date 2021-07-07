@@ -1,6 +1,5 @@
 import discord
 from discord.ext import commands, tasks
-from discord.ext.commands import Bot
 from datetime import datetime
 import random
 from random import choice
@@ -146,12 +145,37 @@ async def on_ready():
 
         # -------------------welkom en goodbye tot ziens------------------------------------------------
 
-        # -------------------------het leaven van de voice channel-----------------------------------------------
 
     # ------------------------------------level system---------------------------------------------------------------
 
     # ---------------------------------------afk functie------------------------------------------------------------
 
+    @bot.command(name="unban", help="command to unban user")
+    @commands.has_permissions(administrator=True)
+    async def _unban(ctx, *, member_id: int):
+        await ctx.guild.unban(discord.Object(id=member_id))
+        await ctx.send(f"Gebruikers id{member_id} is unbanned")
+
+    @bot.command(name="ban")
+    @commands.has_permissions(ban_members=True)
+    async def ban(ctx, user: discord.Member, *, reason="No reason provided"):
+        await user.ban(reason=reason)
+        Ban = discord.Embed(title=f"Gebanned lol {user.name}!",
+                            description=f"Reason: {reason}\nBy: {ctx.author.mention}")
+        await ctx.message.delete()
+        await ctx.channel.send(embed=Ban)
+        await user.send(embed=Ban)
+
+        @commands.has_permissions(kick_members=True)
+        @bot.command(name="kick")
+        async def kick(ctx, user: discord.Member, *, reason="No reason provided"):
+            await user.ban(reason=reason)
+            kick = discord.Embed(title=f"Gekickt lol: {reason}\nBy: {ctx.author.mention}")
+            await ctx.message.delete()
+            await ctx.channel.send(embed=kick)
+            await user.send(embed=kick)
+
+            # -------------------------Bannen en Unbannen-----------------------------------------------
 
 @tasks.loop(seconds=20)
 async def change_status():

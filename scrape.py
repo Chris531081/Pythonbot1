@@ -18,7 +18,7 @@ class AnimeS:
         response = requests.get(self.url + keywords, headers=self.headers)
         content = response.content
         soup = BeautifulSoup(content, 'html.parser')
-        result_links = soup.findAll('a', limit=2)
+        result_links = soup.find()
         return result_links
 
     def send_link(self, result_links, search_words):
@@ -46,7 +46,7 @@ class MangaS:
         response = requests.get(self.url + keywords, headers=self.headers)
         content = response.content
         soup = BeautifulSoup(content, 'html.parser')
-        result_links = soup.findAll('a')
+        result_links = soup.find()
         return result_links
 
     def send_link(self, result_links, search_words):
