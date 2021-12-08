@@ -146,7 +146,7 @@ async def on_ready():
         # -------------------welkom en goodbye tot ziens------------------------------------------------
 
     # ------------------------------------level system---------------------------------------------------------------
-    @bot.command()
+    @bot.command(name="afk")
     async def afk(ctx, mins):
         current_nick = ctx.author.nick
         await ctx.send(f"{ctx.author.mention} has gone afk for {mins} minutes.")
