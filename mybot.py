@@ -1,9 +1,8 @@
-import discord
-from discord.ext import commands, tasks
-import asyncio
+import os
 import random
 from random import choice
-import os
+import discord
+from discord.ext import commands, tasks
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -85,21 +84,7 @@ async def on_ready():
 
                 # ----------------------rollen geven(werkt) en verwijderen(werkt nu ook)---------------------
 
-    determine_flip = [1, 0]
 
-    @bot.command(name='flip')
-    async def coinflip(ctx):
-        if random.choice(determine_flip) == 1:
-            embed = discord.Embed(title="Kop of Munt",
-                                  description=f"{ctx.author.mention} De munt is geflipped je hebt **Kop**!",
-                                  color=0xfcd743)
-            await ctx.send(embed=embed)
-
-        else:
-            embed = discord.Embed(title="Kop of Munt",
-                                  description=f"{ctx.author.mention} De munt is geflipped je hebt **Munt**!",
-                                  color=0xfcd743)
-            await ctx.send(embed=embed)
 
             # ------------------------------kop of munt------------------------------------------------
 
@@ -146,23 +131,6 @@ async def on_ready():
         # -------------------welkom en goodbye tot ziens------------------------------------------------
 
     # ------------------------------------level system---------------------------------------------------------------
-    @bot.command(name="afk")
-    async def afk(ctx, mins):
-        current_nick = ctx.author.nick
-        await ctx.send(f"{ctx.author.mention} has gone afk for {mins} minutes.")
-        await ctx.author.edit(nick=f"{ctx.author.name} [AFK]")
-
-        counter = 0
-        while counter <= int(mins):
-            counter += 1
-            await asyncio.sleep(60)
-
-            if counter == int(mins):
-                await ctx.author.edit(nick=current_nick)
-                await ctx.send(f"{ctx.author.mention} is no longer AFK")
-                break
-
-    # ---------------------------------------afk functie------------------------------------------------------------
 
     @bot.command(name="unban", help="command to unban user")
     @commands.has_permissions(administrator=True)
@@ -190,6 +158,10 @@ async def on_ready():
             await user.send(embed=kick)
 
             # -------------------------Bannen en Unbannen-----------------------------------------------
+
+
+
+    # ---------------------------------------afk functie------------------------------------------------------------
 
 
 @tasks.loop(seconds=20)
