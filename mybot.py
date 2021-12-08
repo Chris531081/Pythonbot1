@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands, tasks
-from datetime import datetime
+import asyncio
 import random
 from random import choice
 import os
@@ -133,10 +133,10 @@ async def on_ready():
 
             # -----------------------------stuurt de pfp van de author of een member------------------------------------
 
-            @bot.event
-            async def on_member_join(member):
-                channel = discord.utils.get(member.guild.channels, name='announcements')
-                await channel.send(f'Yow {member.mention} welkom in de server')
+    @bot.event
+    async def on_member_join(member):
+        channel = discord.utils.get(member.guild.channels, name='announcements')
+        await channel.send(f'EWa {member.mention}')
 
     @bot.event
     async def on_member_remove(member):
@@ -145,8 +145,22 @@ async def on_ready():
 
         # -------------------welkom en goodbye tot ziens------------------------------------------------
 
-
     # ------------------------------------level system---------------------------------------------------------------
+    @bot.command()
+    async def afk(ctx, mins):
+        current_nick = ctx.author.nick
+        await ctx.send(f"{ctx.author.mention} has gone afk for {mins} minutes.")
+        await ctx.author.edit(nick=f"{ctx.author.name} [AFK]")
+
+        counter = 0
+        while counter <= int(mins):
+            counter += 1
+            await asyncio.sleep(60)
+
+            if counter == int(mins):
+                await ctx.author.edit(nick=current_nick)
+                await ctx.send(f"{ctx.author.mention} is no longer AFK")
+                break
 
     # ---------------------------------------afk functie------------------------------------------------------------
 
@@ -176,6 +190,7 @@ async def on_ready():
             await user.send(embed=kick)
 
             # -------------------------Bannen en Unbannen-----------------------------------------------
+
 
 @tasks.loop(seconds=20)
 async def change_status():
